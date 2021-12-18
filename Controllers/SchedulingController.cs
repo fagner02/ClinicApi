@@ -9,28 +9,25 @@ namespace clinics_api.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class SchedulingController : ControllerBase {
-        public SchedulingController() {
+        private readonly SchedulingService _schedulingService;
+        
+        public SchedulingController(SchedulingService schedulingServic) {
+            _schedulingService = schedulingServic
         }
 
-        [HttpGet("")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<Scheduling>>> GetSchedulings() {
-            // TODO: Your code here
-            await Task.Yield();
-
-            return new List<Scheduling> { };
+            return Ok(await _schedulingService.GetAll());
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Scheduling>> GetSchedulingById(int id) {
-            // TODO: Your code here
-            await Task.Yield();
-
-            return null;
+            
         }
 
-        [HttpPost("")]
-        public async Task<ActionResult<Scheduling>> PostScheduling(Scheduling model) {
-            return null;
+        [HttpPost]
+        public async Task<ActionResult<Scheduling>> PostScheduling(Scheduling scheduling) {}
+            await _schedulingService.Create(scheduling);
         }
 
         [HttpPut("{id}")]
