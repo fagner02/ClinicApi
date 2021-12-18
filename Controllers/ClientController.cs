@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using clinics_api.Models;
@@ -20,6 +21,7 @@ namespace clinics_api.Controllers {
 
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] Client client) {
+            Console.WriteLine(client.AddressObject.City);
             await _clientService.Create(client);
             return Ok();
         }

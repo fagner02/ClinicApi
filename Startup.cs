@@ -26,12 +26,13 @@ namespace clinics_api {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<Context>(c => c.UseMySql(connectionString,
-             ServerVersion.AutoDetect(connectionString)));
+            services.AddCors(c => c.AddPolicy("AllowOrigin", options =>
+            options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
+            string connectionString = Configuration.GetConnectionString("Default");
+            services.AddDbContextPool<Context>(c => c.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+            services.AddControllers();
             services.AddScoped<ClientRepository>();
             services.AddScoped<ClientService>();
-            services.AddControllers();
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "clinics_api", Version = "v1" });
             });
@@ -39,11 +40,14 @@ namespace clinics_api {
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
-
+            app.UseCors("AllowOrigin");
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "clinics_api v1"));
+                app.UseSwaggerUI(c => {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "clinics_api v1");
+                    c.RoutePrefix = string.Empty;
+                });
             }
 
             app.UseHttpsRedirection();

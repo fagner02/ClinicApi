@@ -13,11 +13,12 @@ namespace clinics_api.Repositories {
         }
 
         public async Task<IEnumerable<Client>> GetAll() {
-            return await _data.Clients.ToListAsync();
+            return await _data.Clients.Include(x => x.AddressObject).ToListAsync();
         }
 
         public async Task Create(Client client) {
-            await _data.AddAsync(client);
+            await _data.Clients.AddAsync(client);
+            await _data.SaveChangesAsync();
         }
     }
 }
