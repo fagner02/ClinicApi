@@ -29,7 +29,6 @@ selecionar um exame e informar data e hora desejado.
 - Nenhum cliente pode ser excluido da base de dados
 
 ## Requisitos
-
 - Injeção de Dependência
 - Padrão DTO
 - Padrão Repository

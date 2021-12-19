@@ -1,3 +1,4 @@
+using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace clinics_api.Repositories {
     public class SchedulingRepository {
         private readonly Context _data;
         public SchedulingRepository(Context data) {
-            this._data = data;
+            _data = data;
         }
 
         public async Task<IEnumerable<Scheduling>> GetAll() {
@@ -18,11 +19,33 @@ namespace clinics_api.Repositories {
         }
 
         public async Task Create(Scheduling scheduling) {
-            throw new NotImplementedException();
+            await _data.Schedulings.AddAsync(scheduling);
+            await _data.SaveChangesAsync();
         }
 
         public async Task<Scheduling> Get(Guid id) {
             return await _data.Schedulings.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<bool> Update(Guid id, Scheduling scheduling) {
+            Scheduling temp = await _data.Schedulings.FirstOrDefaultAsync(x => x.Id == id);
+            if (temp == null) {
+                return false;
+            }
+            _data.Entry(temp).State = EntityState.Detached;
+            _data.Schedulings.Update(scheduling);
+            await _data.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> Delete(Guid id) {
+            Scheduling temp = await _data.Schedulings.FirstOrDefaultAsync(x => x.Id == id);
+            if (temp == null) {
+                return false;
+            }
+            _data.Schedulings.Remove(temp);
+            await _data.SaveChangesAsync();
+            return true;
         }
     }
 }

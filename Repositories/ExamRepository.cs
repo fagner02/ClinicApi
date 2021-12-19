@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using clinics_api.Contexts;
@@ -18,6 +19,31 @@ namespace clinics_api.Repositories {
         public async Task Create(Exam exam) {
             await _data.Exams.AddAsync(exam);
             await _data.SaveChangesAsync();
+        }
+
+        public async Task<Exam> Get(Guid id) {
+            return await _data.Exams.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<bool> Update(Guid id, Exam Exam) {
+            Exam temp = await _data.Exams.FirstOrDefaultAsync(x => x.Id == id);
+            if (temp == null) {
+                return false;
+            }
+            _data.Entry(temp).State = EntityState.Detached;
+            _data.Exams.Update(Exam);
+            await _data.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> Delete(Guid id) {
+            Exam temp = await _data.Exams.FirstOrDefaultAsync(x => x.Id == id);
+            if (temp == null) {
+                return false;
+            }
+            _data.Exams.Remove(temp);
+            await _data.SaveChangesAsync();
+            return true;
         }
     }
 }

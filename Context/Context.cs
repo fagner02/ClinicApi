@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using clinics_api.Models;
-using clinics_api.Config;
+using clinics_api.Configs;
 
 namespace clinics_api.Contexts {
     public class Context : DbContext {
@@ -8,6 +8,8 @@ namespace clinics_api.Contexts {
         protected override void OnModelCreating(ModelBuilder builder) {
             base.OnModelCreating(builder);
             builder.Entity<Client>(new ClientConfig().Configure);
+            builder.Entity<Scheduling>(new SchedulingConfig().Configure);
+            builder.Entity<Exam>(new ExamConfig().Configure);
         }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Exam> Exams { get; set; }

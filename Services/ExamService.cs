@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using clinics_api.Models;
@@ -14,6 +15,18 @@ namespace clinics_api.Services {
         }
         public async Task Create(Exam exam) {
             await _exam.Create(exam);
+        }
+
+        public async Task<Exam> Get(Guid id) {
+            return await _exam.Get(id);
+        }
+
+        public async Task<bool> Update(Guid id, Exam exam) {
+            return await _exam.Update(id, exam);
+        }
+
+        public async Task<bool> Delete(Guid id) {
+            return await _exam.Delete(id);
         }
     }
 }

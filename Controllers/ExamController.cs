@@ -21,8 +21,8 @@ namespace clinics_api.Controllers {
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Exam>> GetExamById(int id) {
-            return null;
+        public async Task<ActionResult<Exam>> GetExam(Guid id) {
+            return await _examService.Get(id);
         }
 
         [HttpPost]
@@ -32,13 +32,19 @@ namespace clinics_api.Controllers {
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutExam(int id, Exam model) {
+        public async Task<IActionResult> Put(Guid id, Exam exam) {
+            if (!await _examService.Update(id, exam)) {
+                return NotFound();
+            }
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Exam>> DeleteExamById(int id) {
-            return null;
+        public async Task<ActionResult<Exam>> Delete(Guid id) {
+            if (!await _examService.Delete(id)) {
+                return NotFound();
+            }
+            return NoContent();
         }
     }
 }

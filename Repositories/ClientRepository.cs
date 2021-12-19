@@ -20,5 +20,29 @@ namespace clinics_api.Repositories {
             await _data.Clients.AddAsync(client);
             await _data.SaveChangesAsync();
         }
+        public async Task<Client> Get(string cpf) {
+            return await _data.Clients.FirstOrDefaultAsync(x => x.Cpf == cpf);
+        }
+
+        public async Task<bool> Update(string cpf, Client Client) {
+            Client temp = await _data.Clients.FirstOrDefaultAsync(x => x.Cpf == cpf);
+            if (temp == null) {
+                return false;
+            }
+            _data.Entry(temp).State = EntityState.Detached;
+            _data.Clients.Update(Client);
+            await _data.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> Delete(string cpf) {
+            Client temp = await _data.Clients.FirstOrDefaultAsync(x => x.Cpf == cpf);
+            if (temp == null) {
+                return false;
+            }
+            _data.Clients.Remove(temp);
+            await _data.SaveChangesAsync();
+            return true;
+        }
     }
 }

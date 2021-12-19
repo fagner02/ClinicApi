@@ -15,6 +15,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using clinics_api.Repositories;
 using clinics_api.Services;
+using AutoMapper;
 
 namespace clinics_api {
     public class Startup {
@@ -31,8 +32,13 @@ namespace clinics_api {
             string connectionString = Configuration.GetConnectionString("Default");
             services.AddDbContextPool<Context>(c => c.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
             services.AddControllers();
+            services.AddAutoMapper(typeof(Startup));
             services.AddScoped<ClientRepository>();
             services.AddScoped<ClientService>();
+            services.AddScoped<ExamRepository>();
+            services.AddScoped<ExamService>();
+            services.AddScoped<SchedulingRepository>();
+            services.AddScoped<SchedulingService>();
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "clinics_api", Version = "v1" });
             });

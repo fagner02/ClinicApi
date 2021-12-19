@@ -1,20 +1,40 @@
+using System.Collections;
 using System.Collections.Generic;
 using clinics_api.Repositories;
 using clinics_api.Models;
 using System.Threading.Tasks;
+using AutoMapper;
+using clinics_api.Dtos;
 
 namespace clinics_api.Services {
     public class ClientService {
         private readonly ClientRepository _client;
+        private readonly IMapper _mapper;
         public ClientService(ClientRepository client) {
             _client = client;
         }
-        public async Task<IEnumerable<Client>> GetAll() {
-            return await _client.GetAll();
+        public async Task<IEnumerable<ClientDto>> GetAll() {
+            return _mapper.Map<IEnumerable<ClientDto>>(await _client.GetAll());
         }
 
-        public async Task Create(Client client) {
-            await _client.Create(client);
+        public async Task Create(ClientDto client) {
+            await _client.Create(_mapper.Map<Client>(client));
+        }
+
+        public async Task<ClientDto> Get(string cpf) {
+            return _mapper.Map<ClientDto>(await _client.Get(cpf));
+        }
+
+        public async Task<bool> Update(string cpf, ClientDto client) {
+            return await _client.Update(cpf, _mapper.Map<Client>(client));
+        }
+
+        public async Task<bool> Delete(string cpf) {
+            Client c = await _client.Get(cpf);
+            if (c == null) {
+                return false;
+            }
+            return await _client.Delete(cpf);
         }
     }
 }
