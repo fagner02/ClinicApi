@@ -40,8 +40,11 @@ namespace clinics_api.Controllers {
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<SchedulingDto>> Delete(Guid id) {
-            return await _schedulingService.Get(id);
+        public async Task<ActionResult> Delete(Guid id) {
+            if (!await _schedulingService.Delete(id)) {
+                return NotFound();
+            }
+            return NoContent();
         }
     }
 }

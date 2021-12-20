@@ -10,8 +10,9 @@ namespace clinics_api.Services {
     public class ClientService {
         private readonly ClientRepository _client;
         private readonly IMapper _mapper;
-        public ClientService(ClientRepository client) {
+        public ClientService(ClientRepository client, IMapper mapper) {
             _client = client;
+            _mapper = mapper;
         }
         public async Task<IEnumerable<ClientDto>> GetAll() {
             return _mapper.Map<IEnumerable<ClientDto>>(await _client.GetAll());

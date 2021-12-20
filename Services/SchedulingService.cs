@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Linq;
 using System.Collections;
 using System;
@@ -25,15 +26,23 @@ namespace clinics_api.Services {
 
         public async Task Create(CreateSchedulingDto scheduling) {
             Scheduling temp = _mapper.Map<Scheduling>(scheduling);
+            List<Exam> exams = new();
+            List<Guid> examIds = scheduling.ExamIds.ToList();
+
             await _scheduling.Create(temp);
+
             foreach (Guid id in scheduling.ExamIds) {
                 Exam e = await _exam.Get(id);
+
                 if (e == null) {
-                    scheduling.ExamIds.ToList().Remove(id);
+                    examIds.Remove(id);
                     continue;
                 }
-                temp.Exams.ToList().Add(e);
+
+                exams.Add(e);
             }
+            temp.Exams = exams;
+            temp.ExamIds = examIds;
             await _scheduling.Update(temp.Id, temp);
         }
 

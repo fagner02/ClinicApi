@@ -13,7 +13,7 @@ namespace clinics_api.Repositories {
         }
 
         public async Task<IEnumerable<Client>> GetAll() {
-            return await _data.Clients.Include(x => x.AddressObject).ToListAsync();
+            return await _data.Clients.ToListAsync();
         }
 
         public async Task Create(Client client) {

@@ -9,7 +9,7 @@ using clinics_api.Contexts;
 namespace clinics_api.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20211217225137_Clinic")]
+    [Migration("20211219234231_Clinic")]
     partial class Clinic
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,9 +24,6 @@ namespace clinics_api.Migrations
                     b.Property<string>("Cpf")
                         .HasMaxLength(11)
                         .HasColumnType("varchar(11)");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime(6)");
@@ -51,14 +48,14 @@ namespace clinics_api.Migrations
                         .HasColumnType("time(6)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
 
-                    b.Property<Guid?>("SchedulingId")
-                        .HasColumnType("char(36)");
+                    b.Property<double>("Price")
+                        .HasColumnType("double");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("SchedulingId");
 
                     b.ToTable("Exams");
                 });
@@ -74,6 +71,12 @@ namespace clinics_api.Migrations
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<string>("ExamIds")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Exams")
+                        .HasColumnType("longtext");
 
                     b.Property<TimeSpan>("FinalDate")
                         .HasColumnType("time(6)");
@@ -129,25 +132,18 @@ namespace clinics_api.Migrations
                     b.Navigation("AddressObject");
                 });
 
-            modelBuilder.Entity("clinics_api.Models.Exam", b =>
-                {
-                    b.HasOne("clinics_api.Models.Scheduling", null)
-                        .WithMany("Exams")
-                        .HasForeignKey("SchedulingId");
-                });
-
             modelBuilder.Entity("clinics_api.Models.Scheduling", b =>
                 {
                     b.HasOne("clinics_api.Models.Client", "Client")
-                        .WithMany()
+                        .WithMany("Schedulings")
                         .HasForeignKey("ClientCpf");
 
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("clinics_api.Models.Scheduling", b =>
+            modelBuilder.Entity("clinics_api.Models.Client", b =>
                 {
-                    b.Navigation("Exams");
+                    b.Navigation("Schedulings");
                 });
 #pragma warning restore 612, 618
         }

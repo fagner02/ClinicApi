@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using clinics_api.Models;
 using clinics_api.Services;
+using clinics_api.Dtos;
 
 namespace clinics_api.Controllers {
     [Route("api/[controller]")]
@@ -26,13 +27,13 @@ namespace clinics_api.Controllers {
         }
 
         [HttpPost]
-        public async Task<ActionResult<Exam>> PostExam(Exam model) {
-            await _examService.Create(model);
+        public async Task<ActionResult<Exam>> PostExam(CreateExamDto exam) {
+            await _examService.Create(exam);
             return Ok();
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, Exam exam) {
+        public async Task<IActionResult> Put(Guid id, CreateExamDto exam) {
             if (!await _examService.Update(id, exam)) {
                 return NotFound();
             }

@@ -9,6 +9,8 @@ namespace clinics_api.Mappings {
             CreateMap<Scheduling, CreateSchedulingDto>().ReverseMap();
             CreateMap<Exam, ExamDto>().ReverseMap();
             CreateMap<Exam, CreateExamDto>().ReverseMap();
+            CreateMap<Client, ClientDto>().ReverseMap();
+            CreateMap<Client, CreateClientDto>().ReverseMap();
         }
     }
 }
