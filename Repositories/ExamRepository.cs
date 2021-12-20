@@ -26,11 +26,11 @@ namespace clinics_api.Repositories {
         }
 
         public async Task<bool> Update(Guid id, Exam exam) {
-            // Exam temp = await _data.Exams.FirstOrDefaultAsync(x => x.Id == id);
-            // if (temp == null) {
-            //     return false;
-            // }
-            //_data.Entry(temp).State = EntityState.Detached;
+            Exam temp = await _data.Exams.FirstOrDefaultAsync(x => x.Id == id);
+            if (temp == null) {
+                return false;
+            }
+            _data.Entry(temp).State = EntityState.Detached;
             exam.Id = id;
             _data.Exams.Update(exam);
             await _data.SaveChangesAsync();

@@ -16,12 +16,12 @@ namespace clinics_api.Controllers {
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Client>>> GetAll() {
+        public async Task<ActionResult<IEnumerable<ClientDto>>> GetAll() {
             return Ok(await _clientService.GetAll());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Client>> Get(string cpf) {
+        public async Task<ActionResult<ClientDto>> Get(string cpf) {
             return Ok(await _clientService.Get(cpf));
         }
 
@@ -40,7 +40,7 @@ namespace clinics_api.Controllers {
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Exam>> Delete(string cpf) {
+        public async Task<ActionResult> Delete(string cpf) {
             if (!await _clientService.Delete(cpf)) {
                 return NotFound();
             }

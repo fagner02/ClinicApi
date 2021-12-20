@@ -17,19 +17,19 @@ namespace clinics_api.Controllers {
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Exam>>> GetExams() {
+        public async Task<ActionResult<IEnumerable<ExamDto>>> GetExams() {
             return Ok(await _examService.GetAll());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Exam>> GetExam(Guid id) {
-            return await _examService.Get(id);
+        public async Task<ActionResult<ExamDto>> GetExam(Guid id) {
+            return Ok(await _examService.Get(id));
         }
 
         [HttpPost]
-        public async Task<ActionResult<Exam>> PostExam(CreateExamDto exam) {
+        public async Task<ActionResult<ExamDto>> PostExam(CreateExamDto exam) {
             await _examService.Create(exam);
-            return Ok();
+            return NoContent();
         }
 
         [HttpPut("{id}")]
@@ -41,7 +41,7 @@ namespace clinics_api.Controllers {
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Exam>> Delete(Guid id) {
+        public async Task<ActionResult> Delete(Guid id) {
             if (!await _examService.Delete(id)) {
                 return NotFound();
             }

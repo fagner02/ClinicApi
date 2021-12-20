@@ -11,6 +11,8 @@ using System.Collections.Generic;
 namespace clinics_api.Configs {
     public class SchedulingConfig : IEntityTypeConfiguration<Scheduling> {
         public void Configure(EntityTypeBuilder<Scheduling> builder) {
+            builder.HasOne(x => x.Client).WithMany(x => x.Schedulings).HasForeignKey(x => x.ClientCpf);
+
             var exams = new ValueConverter<IEnumerable<Exam>, string>(
             x => JsonSerializer.Serialize(x, x.GetType(), null),
             x => JsonSerializer.Deserialize<IEnumerable<Exam>>(x, null));
@@ -20,6 +22,7 @@ namespace clinics_api.Configs {
             x => JsonSerializer.Deserialize<IEnumerable<Guid>>(x, null));
 
             builder.Property(x => x.Exams).HasConversion(exams);
+            // builder.HasMany(x => x.Exams).WithMany(x => x.Schedulings);
             builder.Property(x => x.ExamIds).HasConversion(examIds);
         }
     }

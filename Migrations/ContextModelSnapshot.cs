@@ -23,6 +23,9 @@ namespace clinics_api.Migrations
                         .HasMaxLength(11)
                         .HasColumnType("varchar(11)");
 
+                    b.Property<bool>("Active")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime(6)");
 

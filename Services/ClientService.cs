@@ -35,7 +35,10 @@ namespace clinics_api.Services {
             if (c == null) {
                 return false;
             }
-            return await _client.Delete(cpf);
+            c.Active = true;
+            await _client.Update(c.Cpf, c);
+            return true;
+            // return await _client.Delete(cpf);
         }
     }
 }

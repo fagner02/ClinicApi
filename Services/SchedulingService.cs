@@ -1,6 +1,4 @@
-using System.Diagnostics;
 using System.Linq;
-using System.Collections;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -28,7 +26,23 @@ namespace clinics_api.Services {
             Scheduling temp = _mapper.Map<Scheduling>(scheduling);
             List<Exam> exams = new();
             List<Guid> examIds = scheduling.ExamIds.ToList();
-
+            if ((await _scheduling.GetAll()).ToList().Exists
+            (x => {
+                if (x.Date.ToShortDateString() != temp.Date.ToShortDateString()) {
+                    return false;
+                }
+                if (temp.InitialDate >= x.InitialDate && temp.FinalDate <= x.FinalDate) {
+                    foreach (Guid id in x.ExamIds) {
+                        if (temp.ExamIds.Contains(id)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+                return false;
+            })) {
+                return;
+            }
             await _scheduling.Create(temp);
 
             foreach (Guid id in scheduling.ExamIds) {

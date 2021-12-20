@@ -22,13 +22,13 @@ namespace clinics_api.Controllers {
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Scheduling>> GetSchedulingById(Guid id) {
+        public async Task<ActionResult<SchedulingDto>> GetSchedulingById(Guid id) {
             return Ok(await _schedulingService.Get(id));
         }
 
         [HttpPost]
-        public async Task PostScheduling(CreateSchedulingDto model) {
-            await _schedulingService.Create(model);
+        public async Task PostScheduling(CreateSchedulingDto scheduling) {
+            await _schedulingService.Create(scheduling);
         }
 
         [HttpPut("{id}")]
