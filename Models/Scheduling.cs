@@ -6,9 +6,6 @@ namespace clinics_api.Models {
     public class Scheduling {
         public Scheduling() {
             FinalDate = InitialDate;
-            foreach (Exam x in Exams) {
-                FinalDate += x.Duration;
-            }
             Id = Guid.NewGuid();
         }
         public Guid Id { get; set; }

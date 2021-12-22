@@ -13,7 +13,7 @@ namespace clinics_api.Repositories {
         }
 
         public async Task<IEnumerable<Client>> GetAll() {
-            return await _data.Clients.ToListAsync();
+            return await _data.Clients.Include(x => x.AddressObject).ToListAsync();
         }
 
         public async Task Create(Client client) {
@@ -21,7 +21,7 @@ namespace clinics_api.Repositories {
             await _data.SaveChangesAsync();
         }
         public async Task<Client> Get(string cpf) {
-            return await _data.Clients.FirstOrDefaultAsync(x => x.Cpf == cpf);
+            return await _data.Clients.Include(x => x.AddressObject).FirstOrDefaultAsync(x => x.Cpf == cpf);
         }
 
         public async Task<bool> Update(string cpf, Client Client) {

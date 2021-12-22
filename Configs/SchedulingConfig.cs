@@ -21,9 +21,9 @@ namespace clinics_api.Configs {
             x => JsonSerializer.Serialize(x, x.GetType(), null),
             x => JsonSerializer.Deserialize<IEnumerable<Guid>>(x, null));
 
-            builder.Property(x => x.Exams).HasConversion(exams);
-            // builder.HasMany(x => x.Exams).WithMany(x => x.Schedulings);
+            //builder.Property(x => x.Exams).HasConversion(exams);
             builder.Property(x => x.ExamIds).HasConversion(examIds);
+            builder.HasMany(x => x.Exams).WithMany(x => x.Schedulings);
         }
     }
 }

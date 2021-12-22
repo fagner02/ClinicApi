@@ -26,7 +26,7 @@ namespace clinics_api.Controllers {
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] ClientDto client) {
+        public async Task<ActionResult> Post([FromBody] CreateClientDto client) {
             await _clientService.Create(client);
             return Ok();
         }

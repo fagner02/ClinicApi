@@ -14,5 +14,6 @@ namespace clinics_api.Contexts {
         public DbSet<Client> Clients { get; set; }
         public DbSet<Exam> Exams { get; set; }
         public DbSet<Scheduling> Schedulings { get; set; }
+        public DbSet<Address> Addresses { get; set; }
     }
 }

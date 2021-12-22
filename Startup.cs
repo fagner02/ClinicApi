@@ -39,6 +39,8 @@ namespace clinics_api {
             services.AddScoped<ExamService>();
             services.AddScoped<SchedulingRepository>();
             services.AddScoped<SchedulingService>();
+            services.AddScoped<AddressRepository>();
+            services.AddScoped<AddressService>();
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "clinics_api", Version = "v1" });
             });

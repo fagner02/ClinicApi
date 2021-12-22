@@ -18,7 +18,7 @@ namespace clinics_api.Services {
             return _mapper.Map<IEnumerable<ClientDto>>(await _client.GetAll());
         }
 
-        public async Task Create(ClientDto client) {
+        public async Task Create(CreateClientDto client) {
             await _client.Create(_mapper.Map<Client>(client));
         }
 

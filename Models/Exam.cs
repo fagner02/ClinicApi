@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System;
 
@@ -10,5 +11,6 @@ namespace clinics_api.Models {
         public string Name { get; set; }
         public double Price { get; set; }
         public TimeSpan Duration { get; set; }
+        public IEnumerable<Scheduling> Schedulings { get; set; }
     }
 }

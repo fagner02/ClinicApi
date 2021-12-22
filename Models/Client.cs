@@ -9,7 +9,7 @@ namespace clinics_api.Models {
         public bool Active { get; set; }
         public DateTime BirthDate { get; set; }
         public Address AddressObject { get; set; }
-
+        public Guid AddressId { get; set; }
         public IEnumerable<Scheduling> Schedulings { get; set; }
     }
 }

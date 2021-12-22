@@ -15,16 +15,6 @@ namespace clinics_api.Repositories {
         }
 
         public async Task<IEnumerable<Scheduling>> GetAll() {
-            var schedulings = await _data.Schedulings.ToListAsync();
-            Console.WriteLine("ooo");
-            if (schedulings.Count > 0) {
-                Console.WriteLine("ooo 1");
-                if (schedulings.ToList()[0].Exams.ToList().Count > 0) {
-                    Console.WriteLine("ooo 2" + schedulings.ToList()[0].Exams.ToList()[0].Name);
-                }
-
-            }
-
             return await _data.Schedulings.ToListAsync();
         }
 

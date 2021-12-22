@@ -8,7 +8,7 @@ namespace clinics_api.Dtos {
         public string ClientCpf { get; set; }
         public IEnumerable<Guid> ExamIds { get; set; }
         public DateTime Date { get; set; }
-        public TimeSpan InitialDate { get; set; }
-        public TimeSpan FinalDate { get; set; }
+        public string InitialDate { get; set; } = "00:00";
+        public string FinalDate { get; set; } = "00:00";
     }
 }

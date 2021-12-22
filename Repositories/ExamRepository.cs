@@ -25,6 +25,10 @@ namespace clinics_api.Repositories {
             return await _data.Exams.FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        internal Task Create(Address address) {
+            throw new NotImplementedException();
+        }
+
         public async Task<bool> Update(Guid id, Exam exam) {
             Exam temp = await _data.Exams.FirstOrDefaultAsync(x => x.Id == id);
             if (temp == null) {

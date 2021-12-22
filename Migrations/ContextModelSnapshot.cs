@@ -17,6 +17,50 @@ namespace clinics_api.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64)
                 .HasAnnotation("ProductVersion", "5.0.13");
 
+            modelBuilder.Entity("ExamScheduling", b =>
+                {
+                    b.Property<Guid>("ExamsId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("SchedulingsId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("ExamsId", "SchedulingsId");
+
+                    b.HasIndex("SchedulingsId");
+
+                    b.ToTable("ExamScheduling");
+                });
+
+            modelBuilder.Entity("clinics_api.Models.Address", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("City")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("District")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Num")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("State")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Street")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ZipCode")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Addresses");
+                });
+
             modelBuilder.Entity("clinics_api.Models.Client", b =>
                 {
                     b.Property<string>("Cpf")
@@ -25,6 +69,9 @@ namespace clinics_api.Migrations
 
                     b.Property<bool>("Active")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<Guid>("AddressId")
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime(6)");
@@ -35,6 +82,8 @@ namespace clinics_api.Migrations
                         .HasColumnType("varchar(100)");
 
                     b.HasKey("Cpf");
+
+                    b.HasIndex("AddressId");
 
                     b.ToTable("Clients");
                 });
@@ -76,9 +125,6 @@ namespace clinics_api.Migrations
                     b.Property<string>("ExamIds")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Exams")
-                        .HasColumnType("longtext");
-
                     b.Property<TimeSpan>("FinalDate")
                         .HasColumnType("time(6)");
 
@@ -92,43 +138,28 @@ namespace clinics_api.Migrations
                     b.ToTable("Schedulings");
                 });
 
+            modelBuilder.Entity("ExamScheduling", b =>
+                {
+                    b.HasOne("clinics_api.Models.Exam", null)
+                        .WithMany()
+                        .HasForeignKey("ExamsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("clinics_api.Models.Scheduling", null)
+                        .WithMany()
+                        .HasForeignKey("SchedulingsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("clinics_api.Models.Client", b =>
                 {
-                    b.OwnsOne("clinics_api.Models.Address", "AddressObject", b1 =>
-                        {
-                            b1.Property<string>("ClientCpf")
-                                .HasColumnType("varchar(11)");
-
-                            b1.Property<string>("City")
-                                .HasMaxLength(20)
-                                .HasColumnType("varchar(20)");
-
-                            b1.Property<string>("District")
-                                .HasColumnType("longtext");
-
-                            b1.Property<string>("Num")
-                                .HasMaxLength(5)
-                                .HasColumnType("varchar(5)");
-
-                            b1.Property<string>("State")
-                                .HasMaxLength(20)
-                                .HasColumnType("varchar(20)");
-
-                            b1.Property<string>("Street")
-                                .HasMaxLength(50)
-                                .HasColumnType("varchar(50)");
-
-                            b1.Property<string>("ZipCode")
-                                .HasMaxLength(9)
-                                .HasColumnType("varchar(9)");
-
-                            b1.HasKey("ClientCpf");
-
-                            b1.ToTable("Clients");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ClientCpf");
-                        });
+                    b.HasOne("clinics_api.Models.Address", "AddressObject")
+                        .WithMany("Clients")
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("AddressObject");
                 });
@@ -140,6 +171,11 @@ namespace clinics_api.Migrations
                         .HasForeignKey("ClientCpf");
 
                     b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("clinics_api.Models.Address", b =>
+                {
+                    b.Navigation("Clients");
                 });
 
             modelBuilder.Entity("clinics_api.Models.Client", b =>
