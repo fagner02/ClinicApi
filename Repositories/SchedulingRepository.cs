@@ -32,8 +32,11 @@ namespace clinics_api.Repositories {
             if (temp == null) {
                 return false;
             }
-            _data.Entry(temp).State = EntityState.Detached;
-            _data.Schedulings.Update(scheduling);
+            //scheduling.Id = id;
+            temp.InitialDate = scheduling.InitialDate;
+            temp.Date = scheduling.Date;
+            //_data.Entry(temp).State = EntityState.Detached;
+            _data.Schedulings.Update(temp);
             await _data.SaveChangesAsync();
             return true;
         }

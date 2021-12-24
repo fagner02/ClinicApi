@@ -68,8 +68,6 @@ namespace clinics_api.Services {
         }
 
         public async Task<bool> Update(Guid id, UpdateSchedulingDto scheduling) {
-            // Scheduling temp = await _scheduling.Get(id);
-            // temp.
             return await _scheduling.Update(id, _mapper.Map<Scheduling>(scheduling));
         }
 
