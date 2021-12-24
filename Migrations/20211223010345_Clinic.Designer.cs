@@ -9,7 +9,7 @@ using clinics_api.Contexts;
 namespace clinics_api.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20211221211119_Clinic")]
+    [Migration("20211223010345_Clinic")]
     partial class Clinic
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -108,6 +108,9 @@ namespace clinics_api.Migrations
                         .HasColumnType("double");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Exams");
                 });

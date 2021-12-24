@@ -13,9 +13,9 @@ namespace clinics_api.Configs {
         public void Configure(EntityTypeBuilder<Scheduling> builder) {
             builder.HasOne(x => x.Client).WithMany(x => x.Schedulings).HasForeignKey(x => x.ClientCpf);
 
-            var exams = new ValueConverter<IEnumerable<Exam>, string>(
-            x => JsonSerializer.Serialize(x, x.GetType(), null),
-            x => JsonSerializer.Deserialize<IEnumerable<Exam>>(x, null));
+            // var exams = new ValueConverter<IEnumerable<Exam>, string>(
+            // x => JsonSerializer.Serialize(x, x.GetType(), null),
+            // x => JsonSerializer.Deserialize<IEnumerable<Exam>>(x, null));
 
             var examIds = new ValueConverter<IEnumerable<Guid>, string>(
             x => JsonSerializer.Serialize(x, x.GetType(), null),

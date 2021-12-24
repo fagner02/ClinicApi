@@ -16,6 +16,9 @@ using Microsoft.EntityFrameworkCore;
 using clinics_api.Repositories;
 using clinics_api.Services;
 using AutoMapper;
+using System.Reflection;
+using System.IO;
+using clinics_api.Controllers;
 
 namespace clinics_api {
     public class Startup {
@@ -43,6 +46,9 @@ namespace clinics_api {
             services.AddScoped<AddressService>();
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "clinics_api", Version = "v1" });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
         }
 

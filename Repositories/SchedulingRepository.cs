@@ -47,5 +47,10 @@ namespace clinics_api.Repositories {
             await _data.SaveChangesAsync();
             return true;
         }
+
+        public async Task<Scheduling> GetDetails(Guid id) {
+            return await _data.Schedulings.Include(x => x.Client).Include(x => x.Client.AddressObject).Include(x => x.Exams)
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace clinics_api.Configs {
             builder.Property(x => x.Duration).IsRequired();
             builder.Property(x => x.Name).IsRequired().HasMaxLength(20);
             builder.Property(x => x.Price).IsRequired();
+            builder.HasIndex(x => x.Name).IsUnique();
         }
     }
 }

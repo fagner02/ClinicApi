@@ -32,7 +32,7 @@ namespace clinics_api.Controllers {
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutScheduling(Guid id, SchedulingDto scheduling) {
+        public async Task<ActionResult> PutScheduling(Guid id, UpdateSchedulingDto scheduling) {
             if (!await _schedulingService.Update(id, scheduling)) {
                 return NotFound();
             }
@@ -45,6 +45,11 @@ namespace clinics_api.Controllers {
                 return NotFound();
             }
             return NoContent();
+        }
+
+        [HttpGet("{id}/Details")]
+        public async Task<ActionResult<SchedulingDetailsDto>> GetDetails(Guid id) {
+            return await _schedulingService.GetDetails(id);
         }
     }
 }

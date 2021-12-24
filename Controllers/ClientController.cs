@@ -46,5 +46,10 @@ namespace clinics_api.Controllers {
             }
             return NoContent();
         }
+
+        [HttpGet("{cpf}/Details")]
+        public async Task<ActionResult<ClientDetailsDto>> GetDetails(string cpf) {
+            return await _clientService.GetDetails(cpf);
+        }
     }
 }

@@ -3,6 +3,9 @@ using System;
 
 namespace clinics_api.Models {
     public class Address {
+        public Address() {
+            Id = Guid.NewGuid();
+        }
         public Guid Id { get; set; }
         public string Street { get; set; }
         public string Num { get; set; }

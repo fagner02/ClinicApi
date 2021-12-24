@@ -130,6 +130,12 @@ namespace clinics_api.Migrations
                 column: "AddressId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Exams_Name",
+                table: "Exams",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ExamScheduling_SchedulingsId",
                 table: "ExamScheduling",
                 column: "SchedulingsId");

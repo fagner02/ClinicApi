@@ -107,6 +107,9 @@ namespace clinics_api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Exams");
                 });
 

@@ -8,6 +8,11 @@ using clinics_api.Services;
 using clinics_api.Dtos;
 
 namespace clinics_api.Controllers {
+    public class DeliveryOptionsSearchModelExample {
+        public object GetExamples() {
+            return new { };
+        }
+    }
     [Route("api/[controller]")]
     [ApiController]
     public class ExamController : ControllerBase {

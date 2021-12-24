@@ -7,8 +7,17 @@ namespace clinics_api.Dtos {
         public Guid Id { get; set; }
         public string ClientCpf { get; set; }
         public IEnumerable<Guid> ExamIds { get; set; }
-        public DateTime Date { get; set; }
-        public string InitialDate { get; set; } = "00:00";
-        public string FinalDate { get; set; } = "00:00";
+        /// <example>
+        /// 30/12/2020
+        /// </example>
+        public string Date { get; set; }
+        /// <example>
+        /// 00:00
+        /// </example>
+        public string InitialDate { get; set; }
+        /// <example>
+        /// 00:00
+        /// </example>
+        public string FinalDate { get; set; }
     }
 }

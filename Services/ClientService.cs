@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using clinics_api.Repositories;
@@ -39,6 +40,10 @@ namespace clinics_api.Services {
             await _client.Update(c.Cpf, c);
             return true;
             // return await _client.Delete(cpf);
+        }
+
+        public async Task<ClientDetailsDto> GetDetails(string cpf) {
+            return _mapper.Map<ClientDetailsDto>(await _client.GetDetails(cpf));
         }
     }
 }
