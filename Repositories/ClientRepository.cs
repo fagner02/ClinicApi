@@ -24,12 +24,11 @@ namespace clinics_api.Repositories {
             return await _data.Clients.Include(x => x.AddressObject).FirstOrDefaultAsync(x => x.Cpf == cpf);
         }
 
-        public async Task<bool> Update(string cpf, Client Client) {
-            Client temp = await _data.Clients.FirstOrDefaultAsync(x => x.Cpf == cpf);
-            if (temp == null) {
-                return false;
-            }
-            _data.Entry(temp).State = EntityState.Detached;
+        public async Task<Client> GetByName(string name) {
+            return await _data.Clients.Include(x => x.AddressObject).FirstOrDefaultAsync(x => x.Name == name);
+        }
+
+        public async Task<bool> Update(Client Client) {
             _data.Clients.Update(Client);
             await _data.SaveChangesAsync();
             return true;

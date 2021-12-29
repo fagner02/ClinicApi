@@ -62,7 +62,14 @@ namespace clinics_api.Mappings {
             .ForMember(x => x.BirthDate, opt => opt.MapFrom(
                 x => DateTime.ParseExact(x.BirthDate, "dd/mm/yyyy", new CultureInfo("pt-BR"))));
 
-            CreateMap<Client, CreateClientDto>().ReverseMap();
+            CreateMap<Client, CreateClientDto>()
+            .ForMember(x => x.BirthDate, opt => opt.MapFrom(
+                x => x.BirthDate.ToString("dd/mm/yyyy", new CultureInfo("pt-BR"))))
+            .ReverseMap()
+            .ForMember(x => x.BirthDate, opt => opt.MapFrom(
+                x => DateTime.ParseExact(x.BirthDate, "dd/mm/yyyy", new CultureInfo("pt-BR"))));
+
+            CreateMap<Client, UpdateClientDto>().ReverseMap();
 
             CreateMap<Client, ClientDetailsDto>()
             .ForMember(x => x.AddressObject, opt => opt.MapFrom(x => x.AddressObject))

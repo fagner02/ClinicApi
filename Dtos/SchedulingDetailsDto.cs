@@ -6,8 +6,7 @@ using clinics_api.Models;
 namespace clinics_api.Dtos {
     public class SchedulingDetailsDto {
         public Guid Id { get; set; }
-        public string ClientCpf { get; set; }
-        public IEnumerable<Guid> ExamIds { get; set; }
+        public double Price { get; set; }
         public IEnumerable<ExamDto> Exams { get; set; }
         public ClientDto Client { get; set; }
         /// <example>

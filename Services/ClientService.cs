@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using clinics_api.Repositories;
 using clinics_api.Models;
@@ -16,7 +16,8 @@ namespace clinics_api.Services {
             _mapper = mapper;
         }
         public async Task<IEnumerable<ClientDto>> GetAll() {
-            return _mapper.Map<IEnumerable<ClientDto>>(await _client.GetAll());
+            return _mapper.Map<IEnumerable<ClientDto>>(
+                (await _client.GetAll()).ToList().Where(x => x.Active));
         }
 
         public async Task Create(CreateClientDto client) {
@@ -24,11 +25,32 @@ namespace clinics_api.Services {
         }
 
         public async Task<ClientDto> Get(string cpf) {
-            return _mapper.Map<ClientDto>(await _client.Get(cpf));
+            Client temp = await _client.Get(cpf);
+            if (temp != null && !temp.Active) {
+                return null;
+            }
+            return _mapper.Map<ClientDto>(temp);
         }
 
-        public async Task<bool> Update(string cpf, ClientDto client) {
-            return await _client.Update(cpf, _mapper.Map<Client>(client));
+        public async Task<ClientDto> GetByName(string name) {
+            Client temp = await _client.GetByName(name);
+            if (temp != null && !temp.Active) {
+                return null;
+            }
+            return _mapper.Map<ClientDto>(temp);
+        }
+
+        public async Task<bool> Update(string cpf, UpdateClientDto client) {
+            Client temp = await _client.Get(cpf);
+            if (temp == null) {
+                return false;
+            }
+            if (!temp.Active) {
+                return false;
+            }
+            temp.AddressId = client.AddressId;
+            await _client.Update(temp);
+            return true;
         }
 
         public async Task<bool> Delete(string cpf) {
@@ -36,14 +58,21 @@ namespace clinics_api.Services {
             if (c == null) {
                 return false;
             }
-            c.Active = true;
-            await _client.Update(c.Cpf, c);
+            if (!c.Active) {
+                return false;
+            }
+            c.Active = false;
+            await _client.Update(c);
             return true;
             // return await _client.Delete(cpf);
         }
 
         public async Task<ClientDetailsDto> GetDetails(string cpf) {
-            return _mapper.Map<ClientDetailsDto>(await _client.GetDetails(cpf));
+            Client temp = await _client.GetDetails(cpf);
+            if (temp != null && !temp.Active) {
+                return null;
+            }
+            return _mapper.Map<ClientDetailsDto>(temp);
         }
     }
 }

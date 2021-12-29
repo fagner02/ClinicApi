@@ -25,7 +25,11 @@ namespace clinics_api.Controllers {
 
         [HttpGet("{id}")]
         public async Task<ActionResult<AddressDto>> GetAddress(Guid id) {
-            return Ok(await _addressService.Get(id));
+            AddressDto address = await _addressService.Get(id);
+            if (address == null) {
+                return NotFound();
+            }
+            return Ok(address);
         }
 
         [HttpPost]

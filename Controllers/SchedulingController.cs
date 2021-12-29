@@ -27,8 +27,13 @@ namespace clinics_api.Controllers {
         }
 
         [HttpPost]
-        public async Task PostScheduling(CreateSchedulingDto scheduling) {
-            await _schedulingService.Create(scheduling);
+        public async Task<ActionResult> PostScheduling(CreateSchedulingDto scheduling) {
+            try {
+                await _schedulingService.Create(scheduling);
+                return Ok();
+            } catch (Exception e) {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPut("{id}")]

@@ -5,6 +5,7 @@ using System;
 namespace clinics_api.Dtos {
     public class SchedulingDto {
         public Guid Id { get; set; }
+        public double Price { get; set; }
         public string ClientCpf { get; set; }
         public IEnumerable<Guid> ExamIds { get; set; }
         /// <example>

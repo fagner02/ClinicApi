@@ -20,9 +20,14 @@ namespace clinics_api.Controllers {
             return Ok(await _clientService.GetAll());
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{cpf}")]
         public async Task<ActionResult<ClientDto>> Get(string cpf) {
             return Ok(await _clientService.Get(cpf));
+        }
+
+        [HttpGet("{name}")]
+        public async Task<ActionResult<ClientDto>> GetByName(string name) {
+            return Ok(await _clientService.GetByName(name));
         }
 
         [HttpPost]
@@ -31,15 +36,15 @@ namespace clinics_api.Controllers {
             return Ok();
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(string cpf, ClientDto client) {
+        [HttpPut("{cpf}")]
+        public async Task<IActionResult> Put(string cpf, UpdateClientDto client) {
             if (!await _clientService.Update(cpf, client)) {
                 return NotFound();
             }
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{cpf}")]
         public async Task<ActionResult> Delete(string cpf) {
             if (!await _clientService.Delete(cpf)) {
                 return NotFound();

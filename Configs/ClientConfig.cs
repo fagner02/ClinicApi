@@ -16,7 +16,10 @@ namespace clinics_api.Configs {
             //     a.Property(x => x.State).HasMaxLength(20);
             //     a.Property(x => x.ZipCode).HasMaxLength(9);
             // });
-            builder.HasOne(x => x.AddressObject).WithMany(x => x.Clients).HasForeignKey(x => x.AddressId).HasPrincipalKey(x => x.Id);
+            builder.Property(x => x.AddressId).IsRequired(false);
+            builder.HasOne(x => x.AddressObject)
+            .WithMany(x => x.Clients).HasForeignKey(x => x.AddressId).HasPrincipalKey(x => x.Id)
+            .IsRequired(false).OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

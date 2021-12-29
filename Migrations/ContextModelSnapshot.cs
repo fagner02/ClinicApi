@@ -70,7 +70,7 @@ namespace clinics_api.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<Guid>("AddressId")
+                    b.Property<Guid?>("AddressId")
                         .HasColumnType("char(36)");
 
                     b.Property<DateTime>("BirthDate")
@@ -134,6 +134,9 @@ namespace clinics_api.Migrations
                     b.Property<TimeSpan>("InitialDate")
                         .HasColumnType("time(6)");
 
+                    b.Property<double>("Price")
+                        .HasColumnType("double");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ClientCpf");
@@ -161,8 +164,7 @@ namespace clinics_api.Migrations
                     b.HasOne("clinics_api.Models.Address", "AddressObject")
                         .WithMany("Clients")
                         .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("AddressObject");
                 });

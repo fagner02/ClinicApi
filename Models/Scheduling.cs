@@ -12,6 +12,7 @@ namespace clinics_api.Models {
             FinalDate = InitialDate;
             foreach (Exam e in _exams) {
                 FinalDate += e.Duration;
+                Price += e.Price;
             }
         }
         public Guid Id { get; set; }
@@ -30,10 +31,12 @@ namespace clinics_api.Models {
                 foreach (Exam e in value) {
                     Console.WriteLine("e" + e.Id + " " + e.Duration);
                     FinalDate += e.Duration;
+                    Price += e.Price;
                 }
                 Console.WriteLine("end" + FinalDate);
             }
         }
+        public double Price { get; set; } = 0;
         public IEnumerable<Guid> ExamIds { get; set; }
         public DateTime Date { get; set; }
         private TimeSpan _initialDate;

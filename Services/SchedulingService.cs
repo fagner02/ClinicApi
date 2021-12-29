@@ -32,6 +32,9 @@ namespace clinics_api.Services {
                     return false;
                 }
                 if (temp.InitialDate >= x.InitialDate && temp.FinalDate <= x.FinalDate) {
+                    if (temp.ClientCpf == x.ClientCpf) {
+                        return true;
+                    }
                     foreach (Guid id in x.ExamIds) {
                         if (temp.ExamIds.Contains(id)) {
                             return true;
