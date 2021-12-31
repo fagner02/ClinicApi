@@ -11,5 +11,7 @@ namespace clinics_api.Models {
         public Address AddressObject { get; set; }
         public Guid? AddressId { get; set; }
         public IEnumerable<Scheduling> Schedulings { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using clinics_api.Dtos;
 using clinics_api.Models;
 using clinics_api.Repositories;
 using AutoMapper;
+using clinics_api.Enums;
 
 namespace clinics_api.Services {
     public class AddressService {
@@ -20,6 +21,15 @@ namespace clinics_api.Services {
 
         public async Task<IEnumerable<AddressDto>> GetAll() {
             return _mapper.Map<IEnumerable<AddressDto>>(await _address.GetAll());
+        }
+
+        public async Task<Response<AddressDto>> GetAllPaged(
+            int pageNumber, int pageSize,
+            OrderAddressColumn orderColumn, OrderType orderType
+        ) {
+            var result = await _address.GetAllPaged(pageNumber, pageSize, orderColumn, orderType);
+            Response<AddressDto> res = new(result, _mapper.Map<IEnumerable<AddressDto>>(result));
+            return res;
         }
 
         public async Task Create(CreateAddressDto address) {

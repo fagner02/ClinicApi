@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using clinics_api.Models;
 using clinics_api.Services;
 using clinics_api.Dtos;
+using clinics_api.Enums;
 
 namespace clinics_api.Controllers {
     [Route("api/[controller]")]
@@ -18,9 +19,18 @@ namespace clinics_api.Controllers {
             _addressService = addressService;
         }
 
-        [HttpGet]
+        [HttpGet("All")]
         public async Task<ActionResult<IEnumerable<AddressDto>>> GetAdresses() {
             return Ok(await _addressService.GetAll());
+        }
+
+        [HttpGet("Paged")]
+        public async Task<ActionResult> GetAdressesPaged(
+            [FromQuery] int pageNumber,
+            [FromQuery] int pageSize,
+            [FromQuery] OrderAddressColumn orderColumn,
+            [FromQuery] OrderType orderType = OrderType.ASC) {
+            return Ok(await _addressService.GetAllPaged(pageNumber, pageSize, orderColumn, orderType));
         }
 
         [HttpGet("{id}")]

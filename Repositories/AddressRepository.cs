@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using clinics_api.Contexts;
+using clinics_api.Enums;
 using clinics_api.Models;
 using Microsoft.EntityFrameworkCore;
+using X.PagedList;
 
 namespace clinics_api.Repositories {
     public class AddressRepository {
@@ -14,6 +17,15 @@ namespace clinics_api.Repositories {
 
         public async Task<IEnumerable<Address>> GetAll() {
             return await _data.Addresses.ToListAsync();
+        }
+
+        public async Task<IPagedList<Address>> GetAllPaged(
+            int pageNumber, int pageSize,
+            OrderAddressColumn orderColumn, OrderType orderType
+        ) {
+            return await _data.Addresses
+                .OrderBy($"{orderColumn} {orderType}")
+                .ToPagedListAsync(pageNumber, pageSize);
         }
 
         public async Task Create(Address address) {

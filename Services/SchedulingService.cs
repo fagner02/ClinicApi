@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Linq;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,9 @@ using AutoMapper;
 using clinics_api.Models;
 using clinics_api.Repositories;
 using clinics_api.Dtos;
+using X.PagedList;
+using System.Dynamic;
+using clinics_api.Enums;
 
 namespace clinics_api.Services {
     public class SchedulingService {
@@ -22,6 +26,14 @@ namespace clinics_api.Services {
             return _mapper.Map<IEnumerable<SchedulingDto>>(await _scheduling.GetAll());
         }
 
+        public async Task<Response<SchedulingDto>> GetAllPaged(
+            int pageNumber, int pageSize, OrderSchedulingColumn orderColumn, OrderType orderType
+        ) {
+            var result = await _scheduling.GetAllPaged(pageNumber, pageSize, orderColumn, orderType);
+            Response<SchedulingDto> res = new(result, _mapper.Map<IEnumerable<SchedulingDto>>(result));
+            return res;
+        }
+
         public async Task Create(CreateSchedulingDto scheduling) {
             Scheduling temp = _mapper.Map<Scheduling>(scheduling);
             List<Exam> exams = new();
@@ -31,7 +43,7 @@ namespace clinics_api.Services {
                 if (x.Date.ToShortDateString() != temp.Date.ToShortDateString()) {
                     return false;
                 }
-                if (temp.InitialDate >= x.InitialDate && temp.FinalDate <= x.FinalDate) {
+                if (temp.InitialDate >= x.InitialDate && temp.FinalDate < x.FinalDate) {
                     if (temp.ClientCpf == x.ClientCpf) {
                         return true;
                     }

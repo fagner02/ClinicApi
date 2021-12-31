@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using clinics_api.Dtos;
+using clinics_api.Enums;
 using clinics_api.Models;
 using clinics_api.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -15,9 +16,18 @@ namespace clinics_api.Controllers {
             _clientService = clientService;
         }
 
-        [HttpGet]
+        [HttpGet("All")]
         public async Task<ActionResult<IEnumerable<ClientDto>>> GetAll() {
             return Ok(await _clientService.GetAll());
+        }
+
+        [HttpGet("Paged")]
+        public async Task<ActionResult> GetAllPaged(
+            [FromQuery] int pageNumber,
+            [FromQuery] int pageSize,
+            [FromQuery] OrderClientColumn orderColumn,
+            [FromQuery] OrderType orderType = OrderType.ASC) {
+            return Ok(await _clientService.GetAllPaged(pageNumber, pageSize, orderColumn, orderType));
         }
 
         [HttpGet("{cpf}")]

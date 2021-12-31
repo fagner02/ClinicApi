@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using clinics_api.Models;
 using clinics_api.Services;
 using clinics_api.Dtos;
+using X.PagedList;
+using clinics_api.Enums;
 
 namespace clinics_api.Controllers {
     [Route("api/[controller]")]
@@ -16,9 +18,18 @@ namespace clinics_api.Controllers {
             _schedulingService = schedulingService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<SchedulingDto>>> GetSchedulings() {
+        [HttpGet("All")]
+        public async Task<ActionResult> GetSchedulings() {
             return Ok(await _schedulingService.GetAll());
+        }
+
+        [HttpGet("Paged")]
+        public async Task<ActionResult> GetSchedulings(
+            [FromQuery] int pageNumber,
+            [FromQuery] int pageSize,
+            [FromQuery] OrderSchedulingColumn orderColumn,
+            [FromQuery] OrderType orderType = OrderType.ASC) {
+            return Ok(await _schedulingService.GetAllPaged(pageNumber, pageSize, orderColumn, orderType));
         }
 
         [HttpGet("{id}")]

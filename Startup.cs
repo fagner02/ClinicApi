@@ -19,6 +19,7 @@ using AutoMapper;
 using System.Reflection;
 using System.IO;
 using clinics_api.Controllers;
+using System.Text.Json.Serialization;
 
 namespace clinics_api {
     public class Startup {
@@ -34,7 +35,12 @@ namespace clinics_api {
             options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
             string connectionString = Configuration.GetConnectionString("Default");
             services.AddDbContextPool<Context>(c => c.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
-            services.AddControllers();
+            services
+                .AddControllers()
+                .AddJsonOptions(
+                    options => options.JsonSerializerOptions.Converters.Add(
+                        new JsonStringEnumConverter()
+                    ));
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped<ClientRepository>();
             services.AddScoped<ClientService>();

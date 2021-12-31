@@ -2,10 +2,13 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq.Dynamic.Core;
 using clinics_api.Contexts;
 using clinics_api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using X.PagedList;
+using clinics_api.Enums;
 
 namespace clinics_api.Repositories {
     public class SchedulingRepository {
@@ -16,6 +19,15 @@ namespace clinics_api.Repositories {
 
         public async Task<IEnumerable<Scheduling>> GetAll() {
             return await _data.Schedulings.ToListAsync();
+        }
+
+        public async Task<IPagedList<Scheduling>> GetAllPaged(
+            int pageNumber, int pageSize,
+            OrderSchedulingColumn orderColumn, OrderType orderType
+        ) {
+            return await _data.Schedulings
+                .OrderBy($"{orderColumn} {orderType}")
+                .ToPagedListAsync(pageNumber, pageSize);
         }
 
         public async Task Create(Scheduling scheduling) {

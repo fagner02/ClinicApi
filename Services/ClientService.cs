@@ -6,6 +6,7 @@ using clinics_api.Models;
 using System.Threading.Tasks;
 using AutoMapper;
 using clinics_api.Dtos;
+using clinics_api.Enums;
 
 namespace clinics_api.Services {
     public class ClientService {
@@ -18,6 +19,13 @@ namespace clinics_api.Services {
         public async Task<IEnumerable<ClientDto>> GetAll() {
             return _mapper.Map<IEnumerable<ClientDto>>(
                 (await _client.GetAll()).ToList().Where(x => x.Active));
+        }
+
+        public async Task<Response<ClientDto>> GetAllPaged(
+            int pageNumber, int pageSize, OrderClientColumn orderColumn, OrderType orderType) {
+            var result = await _client.GetAllPaged(pageNumber, pageSize, orderColumn, orderType);
+            Response<ClientDto> res = new(result, _mapper.Map<IEnumerable<ClientDto>>(result));
+            return res;
         }
 
         public async Task Create(CreateClientDto client) {

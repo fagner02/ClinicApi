@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using clinics_api.Models;
 using clinics_api.Services;
 using clinics_api.Dtos;
+using clinics_api.Enums;
 
 namespace clinics_api.Controllers {
     public class DeliveryOptionsSearchModelExample {
@@ -21,9 +22,18 @@ namespace clinics_api.Controllers {
             _examService = examService;
         }
 
-        [HttpGet]
+        [HttpGet("All")]
         public async Task<ActionResult<IEnumerable<ExamDto>>> GetExams() {
             return Ok(await _examService.GetAll());
+        }
+
+        [HttpGet("Paged")]
+        public async Task<ActionResult> GetExamsPaged(
+            [FromQuery] int pageNumber,
+            [FromQuery] int pageSize,
+            [FromQuery] OrderExamColumn orderColumn,
+            [FromQuery] OrderType orderType = OrderType.ASC) {
+            return Ok(await _examService.GetAllPaged(pageNumber, pageSize, orderColumn, orderType));
         }
 
         [HttpGet("{id}")]
