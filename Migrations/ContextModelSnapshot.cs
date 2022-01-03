@@ -76,10 +76,16 @@ namespace clinics_api.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("longtext");
 
                     b.HasKey("Cpf");
 

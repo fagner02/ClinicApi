@@ -9,7 +9,8 @@ using clinics_api.Dtos;
 using clinics_api.Enums;
 
 namespace clinics_api.Services {
-    public class ClientService {
+
+    public class ClientService : IClientService {
         private readonly ClientRepository _client;
         private readonly IMapper _mapper;
         public ClientService(ClientRepository client, IMapper mapper) {

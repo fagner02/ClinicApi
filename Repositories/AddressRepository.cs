@@ -9,7 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 
 namespace clinics_api.Repositories {
-    public class AddressRepository {
+
+    public class AddressRepository : IAddressRepository {
         private readonly Context _data;
         public AddressRepository(Context data) {
             _data = data;

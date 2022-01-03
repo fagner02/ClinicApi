@@ -11,7 +11,8 @@ using X.PagedList;
 using clinics_api.Enums;
 
 namespace clinics_api.Repositories {
-    public class SchedulingRepository {
+
+    public class SchedulingRepository : ISchedulingRepository {
         private readonly Context _data;
         public SchedulingRepository(Context data) {
             _data = data;
@@ -44,10 +45,8 @@ namespace clinics_api.Repositories {
             if (temp == null) {
                 return false;
             }
-            //scheduling.Id = id;
             temp.InitialDate = scheduling.InitialDate;
             temp.Date = scheduling.Date;
-            //_data.Entry(temp).State = EntityState.Detached;
             _data.Schedulings.Update(temp);
             await _data.SaveChangesAsync();
             return true;

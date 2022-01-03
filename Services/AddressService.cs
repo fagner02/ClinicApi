@@ -10,7 +10,8 @@ using AutoMapper;
 using clinics_api.Enums;
 
 namespace clinics_api.Services {
-    public class AddressService {
+
+    public class AddressService : IAddressService {
         private readonly AddressRepository _address;
         private readonly IMapper _mapper;
 

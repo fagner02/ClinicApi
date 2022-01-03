@@ -9,7 +9,8 @@ using X.PagedList;
 using clinics_api.Enums;
 
 namespace clinics_api.Repositories {
-    public class ClientRepository {
+
+    public class ClientRepository : IClientRepository {
         private readonly Context _data;
         public ClientRepository(Context data) {
             _data = data;

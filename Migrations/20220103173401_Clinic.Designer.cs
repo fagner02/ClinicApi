@@ -9,7 +9,7 @@ using clinics_api.Contexts;
 namespace clinics_api.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20211228222349_Clinic")]
+    [Migration("20220103173401_Clinic")]
     partial class Clinic
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -78,10 +78,16 @@ namespace clinics_api.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("longtext");
 
                     b.HasKey("Cpf");
 

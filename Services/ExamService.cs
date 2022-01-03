@@ -11,7 +11,8 @@ using X.PagedList;
 using clinics_api.Enums;
 
 namespace clinics_api.Services {
-    public class ExamService {
+
+    public class ExamService : IExamService {
         private readonly ExamRepository _exam;
         private readonly IMapper _mapper;
 

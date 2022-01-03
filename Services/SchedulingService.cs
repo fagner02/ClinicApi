@@ -12,7 +12,8 @@ using System.Dynamic;
 using clinics_api.Enums;
 
 namespace clinics_api.Services {
-    public class SchedulingService {
+
+    public class SchedulingService : ISchedulingService {
         private readonly SchedulingRepository _scheduling;
         private readonly ExamRepository _exam;
         private readonly IMapper _mapper;
@@ -88,6 +89,7 @@ namespace clinics_api.Services {
 
         public async Task<bool> Delete(Guid id) {
             return await _scheduling.Delete(id);
+
         }
 
         public async Task<SchedulingDetailsDto> GetDetails(Guid id) {

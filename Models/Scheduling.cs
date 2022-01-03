@@ -25,15 +25,12 @@ namespace clinics_api.Models {
             }
             set {
                 _exams = value;
-                Console.WriteLine(_initialDate);
 
                 FinalDate = _initialDate;
                 foreach (Exam e in value) {
-                    Console.WriteLine("e" + e.Id + " " + e.Duration);
                     FinalDate += e.Duration;
                     Price += e.Price;
                 }
-                Console.WriteLine("end" + FinalDate);
             }
         }
         public double Price { get; set; } = 0;

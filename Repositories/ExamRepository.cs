@@ -9,7 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 
 namespace clinics_api.Repositories {
-    public class ExamRepository {
+
+    public class ExamRepository : IExamRepository {
         private readonly Context _data;
         public ExamRepository(Context data) {
             _data = data;
