@@ -11,7 +11,7 @@ namespace clinics_api.Services {
         Task<bool> Delete(Guid id);
         Task<AddressDto> Get(Guid id);
         Task<IEnumerable<AddressDto>> GetAll();
-        Task<Response<AddressDto>> GetAllPaged(int pageNumber, int pageSize, OrderAddressColumn orderColumn, OrderType orderType);
+        Task<Response<AddressDto>> GetAllPaged(int pageNumber, int pageSize, string search, OrderAddressColumn orderColumn, OrderType orderType);
         Task<bool> Update(Guid id, CreateAddressDto address);
     }
 }

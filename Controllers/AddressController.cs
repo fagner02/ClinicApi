@@ -13,9 +13,9 @@ namespace clinics_api.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class AddressController : ControllerBase {
-        private readonly AddressService _addressService;
+        private readonly IAddressService _addressService;
 
-        public AddressController(AddressService addressService) {
+        public AddressController(IAddressService addressService) {
             _addressService = addressService;
         }
 
@@ -28,9 +28,10 @@ namespace clinics_api.Controllers {
         public async Task<ActionResult> GetAdressesPaged(
             [FromQuery] int pageNumber,
             [FromQuery] int pageSize,
+            [FromQuery] string search,
             [FromQuery] OrderAddressColumn orderColumn,
             [FromQuery] OrderType orderType = OrderType.ASC) {
-            return Ok(await _addressService.GetAllPaged(pageNumber, pageSize, orderColumn, orderType));
+            return Ok(await _addressService.GetAllPaged(pageNumber, pageSize, search, orderColumn, orderType));
         }
 
         [HttpGet("{id}")]

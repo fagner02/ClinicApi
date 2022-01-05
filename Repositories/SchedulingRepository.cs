@@ -23,11 +23,12 @@ namespace clinics_api.Repositories {
         }
 
         public async Task<IPagedList<Scheduling>> GetAllPaged(
-            int pageNumber, int pageSize,
+            int pageNumber, int pageSize, OrderSchedulingColumn searchColumn, string search,
             OrderSchedulingColumn orderColumn, OrderType orderType
         ) {
             return await _data.Schedulings
                 .OrderBy($"{orderColumn} {orderType}")
+                .Where($"{searchColumn}.Contains(\"{search}\")")
                 .ToPagedListAsync(pageNumber, pageSize);
         }
 

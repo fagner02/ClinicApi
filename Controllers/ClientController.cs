@@ -11,8 +11,8 @@ namespace clinics_api.Controllers {
     [ApiController]
     [Route("[controller]")]
     public class ClientController : ControllerBase {
-        private readonly ClientService _clientService;
-        public ClientController(ClientService clientService) {
+        private readonly IClientService _clientService;
+        public ClientController(IClientService clientService) {
             _clientService = clientService;
         }
 
@@ -25,9 +25,11 @@ namespace clinics_api.Controllers {
         public async Task<ActionResult> GetAllPaged(
             [FromQuery] int pageNumber,
             [FromQuery] int pageSize,
+            [FromQuery] OrderClientColumn searchColumn,
+            [FromQuery] string search,
             [FromQuery] OrderClientColumn orderColumn,
             [FromQuery] OrderType orderType = OrderType.ASC) {
-            return Ok(await _clientService.GetAllPaged(pageNumber, pageSize, orderColumn, orderType));
+            return Ok(await _clientService.GetAllPaged(pageNumber, pageSize, searchColumn, search, orderColumn, orderType));
         }
 
         [HttpGet("{cpf}")]

@@ -20,6 +20,7 @@ using System.Reflection;
 using System.IO;
 using clinics_api.Controllers;
 using System.Text.Json.Serialization;
+using clinics_api.StartupConfig;
 
 namespace clinics_api {
     public class Startup {
@@ -31,36 +32,17 @@ namespace clinics_api {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
-            services.AddCors(c => c.AddPolicy("AllowOrigin", options =>
-            options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
-            string connectionString = Configuration.GetConnectionString("Default");
-            services.AddDbContextPool<Context>(c => c.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
-            services
-                .AddControllers()
-                .AddJsonOptions(
-                    options => options.JsonSerializerOptions.Converters.Add(
-                        new JsonStringEnumConverter()
-                    ));
-            services.AddAutoMapper(typeof(Startup));
-            services.AddScoped<ClientRepository>();
-            services.AddScoped<ClientService>();
-            services.AddScoped<ExamRepository>();
-            services.AddScoped<ExamService>();
-            services.AddScoped<SchedulingRepository>();
-            services.AddScoped<SchedulingService>();
-            services.AddScoped<AddressRepository>();
-            services.AddScoped<AddressService>();
-            services.AddSwaggerGen(c => {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "clinics_api", Version = "v1" });
-                string xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
-            });
+            services.AddDatabaseService(Configuration);
+
+            services.AddControllerService();
+
+            services.AddDependenciesService();
+
+            services.AddSwaggerService();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
-            app.UseCors("AllowOrigin");
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();

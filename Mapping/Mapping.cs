@@ -50,6 +50,11 @@ namespace clinics_api.Mappings {
             .ReverseMap()
             .ForMember(x => x.Duration, opt => opt.MapFrom(x => TimeSpan.Parse(x.Duration)));
 
+            CreateMap<Exam, ExamDetailsDto>()
+            .ForMember(x => x.Duration, opt => opt.MapFrom(x => $"{x.Duration.Hours}:{x.Duration.Minutes}"))
+            .ReverseMap()
+            .ForMember(x => x.Duration, opt => opt.MapFrom(x => TimeSpan.Parse(x.Duration)));
+
             // ADDRESS MAPPING
             CreateMap<Address, AddressDto>().ReverseMap();
             CreateMap<Address, CreateAddressDto>().ReverseMap();

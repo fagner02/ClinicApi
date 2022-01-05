@@ -12,10 +12,10 @@ using clinics_api.Enums;
 namespace clinics_api.Services {
 
     public class AddressService : IAddressService {
-        private readonly AddressRepository _address;
+        private readonly IAddressRepository _address;
         private readonly IMapper _mapper;
 
-        public AddressService(IMapper mapper, AddressRepository address) {
+        public AddressService(IMapper mapper, IAddressRepository address) {
             _mapper = mapper;
             _address = address;
         }
@@ -25,10 +25,10 @@ namespace clinics_api.Services {
         }
 
         public async Task<Response<AddressDto>> GetAllPaged(
-            int pageNumber, int pageSize,
+            int pageNumber, int pageSize, string search,
             OrderAddressColumn orderColumn, OrderType orderType
         ) {
-            var result = await _address.GetAllPaged(pageNumber, pageSize, orderColumn, orderType);
+            var result = await _address.GetAllPaged(pageNumber, pageSize, search, orderColumn, orderType);
             Response<AddressDto> res = new(result, _mapper.Map<IEnumerable<AddressDto>>(result));
             return res;
         }

@@ -10,7 +10,7 @@ namespace clinics_api.Services {
         Task<bool> Delete(string cpf);
         Task<ClientDto> Get(string cpf);
         Task<IEnumerable<ClientDto>> GetAll();
-        Task<Response<ClientDto>> GetAllPaged(int pageNumber, int pageSize, OrderClientColumn orderColumn, OrderType orderType);
+        Task<Response<ClientDto>> GetAllPaged(int pageNumber, int pageSize, OrderClientColumn searchColumn, string search, OrderClientColumn orderColumn, OrderType orderType);
         Task<ClientDto> GetByName(string name);
         Task<ClientDetailsDto> GetDetails(string cpf);
         Task<bool> Update(string cpf, UpdateClientDto client);

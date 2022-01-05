@@ -11,9 +11,9 @@ using clinics_api.Enums;
 namespace clinics_api.Services {
 
     public class ClientService : IClientService {
-        private readonly ClientRepository _client;
+        private readonly IClientRepository _client;
         private readonly IMapper _mapper;
-        public ClientService(ClientRepository client, IMapper mapper) {
+        public ClientService(IClientRepository client, IMapper mapper) {
             _client = client;
             _mapper = mapper;
         }
@@ -23,8 +23,8 @@ namespace clinics_api.Services {
         }
 
         public async Task<Response<ClientDto>> GetAllPaged(
-            int pageNumber, int pageSize, OrderClientColumn orderColumn, OrderType orderType) {
-            var result = await _client.GetAllPaged(pageNumber, pageSize, orderColumn, orderType);
+            int pageNumber, int pageSize, OrderClientColumn searchColumn, string search, OrderClientColumn orderColumn, OrderType orderType) {
+            var result = await _client.GetAllPaged(pageNumber, pageSize, searchColumn, search, orderColumn, orderType);
             Response<ClientDto> res = new(result, _mapper.Map<IEnumerable<ClientDto>>(result));
             return res;
         }
@@ -34,7 +34,7 @@ namespace clinics_api.Services {
         }
 
         public async Task<ClientDto> Get(string cpf) {
-            Client temp = await _client.Get(cpf);
+            Client temp = await _client.Get(cpf, x => x.Cpf == cpf);
             if (temp != null && !temp.Active) {
                 return null;
             }
@@ -42,7 +42,7 @@ namespace clinics_api.Services {
         }
 
         public async Task<ClientDto> GetByName(string name) {
-            Client temp = await _client.GetByName(name);
+            Client temp = await _client.Get(name, x => x.Name == name);
             if (temp != null && !temp.Active) {
                 return null;
             }
@@ -50,7 +50,7 @@ namespace clinics_api.Services {
         }
 
         public async Task<bool> Update(string cpf, UpdateClientDto client) {
-            Client temp = await _client.Get(cpf);
+            Client temp = await _client.Get(cpf, x => x.Cpf == cpf);
             if (temp == null) {
                 return false;
             }
@@ -63,7 +63,7 @@ namespace clinics_api.Services {
         }
 
         public async Task<bool> Delete(string cpf) {
-            Client c = await _client.Get(cpf);
+            Client c = await _client.Get(cpf, x => x.Cpf == cpf);
             if (c == null) {
                 return false;
             }

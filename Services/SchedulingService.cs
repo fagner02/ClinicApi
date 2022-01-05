@@ -12,12 +12,11 @@ using System.Dynamic;
 using clinics_api.Enums;
 
 namespace clinics_api.Services {
-
     public class SchedulingService : ISchedulingService {
-        private readonly SchedulingRepository _scheduling;
-        private readonly ExamRepository _exam;
+        private readonly ISchedulingRepository _scheduling;
+        private readonly IExamRepository _exam;
         private readonly IMapper _mapper;
-        public SchedulingService(IMapper mapper, SchedulingRepository scheduling, ExamRepository exam) {
+        public SchedulingService(IMapper mapper, ISchedulingRepository scheduling, IExamRepository exam) {
             _mapper = mapper;
             _scheduling = scheduling;
             _exam = exam;
@@ -28,9 +27,9 @@ namespace clinics_api.Services {
         }
 
         public async Task<Response<SchedulingDto>> GetAllPaged(
-            int pageNumber, int pageSize, OrderSchedulingColumn orderColumn, OrderType orderType
+            int pageNumber, int pageSize, OrderSchedulingColumn searchColumn, string search, OrderSchedulingColumn orderColumn, OrderType orderType
         ) {
-            var result = await _scheduling.GetAllPaged(pageNumber, pageSize, orderColumn, orderType);
+            var result = await _scheduling.GetAllPaged(pageNumber, pageSize, searchColumn, search, orderColumn, orderType);
             Response<SchedulingDto> res = new(result, _mapper.Map<IEnumerable<SchedulingDto>>(result));
             return res;
         }

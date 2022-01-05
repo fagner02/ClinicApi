@@ -7,6 +7,8 @@ using clinics_api.Models;
 using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 using clinics_api.Enums;
+using System.Linq.Expressions;
+using System;
 
 namespace clinics_api.Repositories {
 
@@ -21,11 +23,13 @@ namespace clinics_api.Repositories {
         }
 
         public async Task<IPagedList<Client>> GetAllPaged(
-            int pageNumber, int pageSize,
+            int pageNumber, int pageSize, OrderClientColumn searchColumn, string search,
             OrderClientColumn orderColumn, OrderType orderType
         ) {
             return await _data.Clients
+                .Include(x => x.AddressObject)
                 .OrderBy($"{orderColumn} {orderType}")
+                .Where($"{searchColumn}.Contains(\"{search}\")")
                 .ToPagedListAsync(pageNumber, pageSize);
         }
 
@@ -33,12 +37,8 @@ namespace clinics_api.Repositories {
             await _data.Clients.AddAsync(client);
             await _data.SaveChangesAsync();
         }
-        public async Task<Client> Get(string cpf) {
-            return await _data.Clients.Include(x => x.AddressObject).FirstOrDefaultAsync(x => x.Cpf == cpf);
-        }
-
-        public async Task<Client> GetByName(string name) {
-            return await _data.Clients.Include(x => x.AddressObject).FirstOrDefaultAsync(x => x.Name == name);
+        public async Task<Client> Get(string cpf, Expression<Func<Client, bool>> predicate) {
+            return await _data.Clients.Include(x => x.AddressObject).FirstOrDefaultAsync(predicate);
         }
 
         public async Task<bool> Update(Client Client) {

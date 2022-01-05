@@ -11,7 +11,7 @@ namespace clinics_api.Repositories {
         Task<bool> Delete(Guid id);
         Task<Address> Get(Guid id);
         Task<IEnumerable<Address>> GetAll();
-        Task<IPagedList<Address>> GetAllPaged(int pageNumber, int pageSize, OrderAddressColumn orderColumn, OrderType orderType);
+        Task<IPagedList<Address>> GetAllPaged(int pageNumber, int pageSize, string search, OrderAddressColumn orderColumn, OrderType orderType);
         Task<bool> Update(Guid id, Address address);
     }
 }

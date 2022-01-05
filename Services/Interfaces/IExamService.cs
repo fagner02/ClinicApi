@@ -11,7 +11,8 @@ namespace clinics_api.Services {
         Task<bool> Delete(Guid id);
         Task<ExamDto> Get(Guid id);
         Task<IEnumerable<ExamDto>> GetAll();
-        Task<Response<ExamDto>> GetAllPaged(int pageNumber, int pageSize, OrderExamColumn orderColumn, OrderType orderType);
+        Task<Response<ExamDto>> GetAllPaged(int pageNumber, int pageSize, OrderExamColumn searchColumn, string search, OrderExamColumn orderColumn, OrderType orderType);
         Task<bool> Update(Guid id, CreateExamDto exam);
+        Task<ExamDetailsDto> GetDetails(Guid id);
     }
 }

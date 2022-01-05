@@ -17,8 +17,8 @@ namespace clinics_api.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class ExamController : ControllerBase {
-        private readonly ExamService _examService;
-        public ExamController(ExamService examService) {
+        private readonly IExamService _examService;
+        public ExamController(IExamService examService) {
             _examService = examService;
         }
 
@@ -31,9 +31,11 @@ namespace clinics_api.Controllers {
         public async Task<ActionResult> GetExamsPaged(
             [FromQuery] int pageNumber,
             [FromQuery] int pageSize,
+            [FromQuery] OrderExamColumn searchColumn,
+            [FromQuery] string search,
             [FromQuery] OrderExamColumn orderColumn,
             [FromQuery] OrderType orderType = OrderType.ASC) {
-            return Ok(await _examService.GetAllPaged(pageNumber, pageSize, orderColumn, orderType));
+            return Ok(await _examService.GetAllPaged(pageNumber, pageSize, searchColumn, search, orderColumn, orderType));
         }
 
         [HttpGet("{id}")]
@@ -61,6 +63,11 @@ namespace clinics_api.Controllers {
                 return NotFound();
             }
             return NoContent();
+        }
+
+        [HttpGet("{id}/Details")]
+        public async Task<ActionResult<ExamDetailsDto>> GetDetails(Guid id) {
+            return await _examService.GetDetails(id);
         }
     }
 }

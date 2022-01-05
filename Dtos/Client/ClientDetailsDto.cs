@@ -11,7 +11,7 @@ namespace clinics_api.Dtos {
         /// </example>
         public string BirthDate { get; set; }
         public IEnumerable<SchedulingDto> Schedulings { get; set; }
-        public AddressDto AddressObject { get; set; }
+        public CreateAddressDto AddressObject { get; set; }
         /// <example>
         /// (XX) XXXXX-XXXX
         /// </example>

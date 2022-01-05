@@ -13,8 +13,8 @@ namespace clinics_api.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class SchedulingController : ControllerBase {
-        private readonly SchedulingService _schedulingService;
-        public SchedulingController(SchedulingService schedulingService) {
+        private readonly ISchedulingService _schedulingService;
+        public SchedulingController(ISchedulingService schedulingService) {
             _schedulingService = schedulingService;
         }
 
@@ -27,9 +27,11 @@ namespace clinics_api.Controllers {
         public async Task<ActionResult> GetSchedulings(
             [FromQuery] int pageNumber,
             [FromQuery] int pageSize,
+            [FromQuery] OrderSchedulingColumn searchColumn,
+            [FromQuery] string search,
             [FromQuery] OrderSchedulingColumn orderColumn,
             [FromQuery] OrderType orderType = OrderType.ASC) {
-            return Ok(await _schedulingService.GetAllPaged(pageNumber, pageSize, orderColumn, orderType));
+            return Ok(await _schedulingService.GetAllPaged(pageNumber, pageSize, searchColumn, search, orderColumn, orderType));
         }
 
         [HttpGet("{id}")]

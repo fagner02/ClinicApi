@@ -21,11 +21,12 @@ namespace clinics_api.Repositories {
         }
 
         public async Task<IPagedList<Address>> GetAllPaged(
-            int pageNumber, int pageSize,
+            int pageNumber, int pageSize, string search,
             OrderAddressColumn orderColumn, OrderType orderType
         ) {
             return await _data.Addresses
                 .OrderBy($"{orderColumn} {orderType}")
+                .Where($"Street.Contains(\"{search}\") || City.Contains(\"{search}\") || State.Contains(\"{search}\") || Num.Contains(\"{search}\") || ZipCode.Contains(\"{search}\")")
                 .ToPagedListAsync(pageNumber, pageSize);
         }
 

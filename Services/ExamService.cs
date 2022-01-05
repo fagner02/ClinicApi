@@ -13,10 +13,10 @@ using clinics_api.Enums;
 namespace clinics_api.Services {
 
     public class ExamService : IExamService {
-        private readonly ExamRepository _exam;
+        private readonly IExamRepository _exam;
         private readonly IMapper _mapper;
 
-        public ExamService(IMapper mapper, ExamRepository exam) {
+        public ExamService(IMapper mapper, IExamRepository exam) {
             _mapper = mapper;
             _exam = exam;
         }
@@ -26,10 +26,10 @@ namespace clinics_api.Services {
         }
 
         public async Task<Response<ExamDto>> GetAllPaged(
-            int pageNumber, int pageSize,
+            int pageNumber, int pageSize, OrderExamColumn searchColumn, string search,
             OrderExamColumn orderColumn, OrderType orderType
         ) {
-            var result = await _exam.GetAllPaged(pageNumber, pageSize, orderColumn, orderType);
+            var result = await _exam.GetAllPaged(pageNumber, pageSize, searchColumn, search, orderColumn, orderType);
             Response<ExamDto> res = new(result, _mapper.Map<IEnumerable<ExamDto>>(result));
             return res;
         }
@@ -48,6 +48,10 @@ namespace clinics_api.Services {
 
         public async Task<bool> Delete(Guid id) {
             return await _exam.Delete(id);
+        }
+
+        public async Task<ExamDetailsDto> GetDetails(Guid id) {
+            return _mapper.Map<ExamDetailsDto>(await _exam.GetDetails(id));
         }
     }
 }

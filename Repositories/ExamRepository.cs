@@ -21,11 +21,12 @@ namespace clinics_api.Repositories {
         }
 
         public async Task<IPagedList<Exam>> GetAllPaged(
-            int pageNumber, int pageSize,
+            int pageNumber, int pageSize, OrderExamColumn searchColum, string search,
             OrderExamColumn orderColumn, OrderType orderType
         ) {
             return await _data.Exams
                 .OrderBy($"{orderColumn} {orderType}")
+                .Where($"{searchColum}.Contains(\"{search}\")")
                 .ToPagedListAsync(pageNumber, pageSize);
         }
 
@@ -62,6 +63,12 @@ namespace clinics_api.Repositories {
             _data.Exams.Remove(temp);
             await _data.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<Exam> GetDetails(Guid id) {
+            return await _data.Exams
+            .Include(x => x.Schedulings)
+            .FirstOrDefaultAsync(x => x.Id == id);
         }
     }
 }

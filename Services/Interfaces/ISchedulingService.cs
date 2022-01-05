@@ -11,7 +11,7 @@ namespace clinics_api.Services {
         Task<bool> Delete(Guid id);
         Task<SchedulingDto> Get(Guid id);
         Task<IEnumerable<SchedulingDto>> GetAll();
-        Task<Response<SchedulingDto>> GetAllPaged(int pageNumber, int pageSize, OrderSchedulingColumn orderColumn, OrderType orderType);
+        Task<Response<SchedulingDto>> GetAllPaged(int pageNumber, int pageSize, OrderSchedulingColumn searchColumn, string search, OrderSchedulingColumn orderColumn, OrderType orderType);
         Task<SchedulingDetailsDto> GetDetails(Guid id);
         Task<bool> Update(Guid id, UpdateSchedulingDto scheduling);
     }
